@@ -6,7 +6,7 @@
 /*   By: rteles-f <rteles-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 18:13:24 by rteles-f          #+#    #+#             */
-/*   Updated: 2023/01/02 21:29:02 by rteles-f         ###   ########.fr       */
+/*   Updated: 2023/01/09 20:42:05 by rteles-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,19 @@ struct	s_vars {
 };
 
 struct s_object {
-	int		id;
-	double	x;
-	double	y;
-	void	*(*new_pos)(t_vars *vars, t_object *obj);
-	exe		*trail;
-	t_data	data;
+	int			id;
+	double		x;
+	double		y;
+	void		*(*new_pos)(t_vars *vars, t_object *obj);
+	exe			*trail;
+	t_data		data;
+	t_object	*on_top;
 	int		animation;
 };
 
 struct s_list {
 	t_object	obj;
-	t_list		*next;
+	t_object	*next;
 };
 
 typedef struct map_struct {
@@ -98,34 +99,46 @@ int			bl_strlen(char *string);
 int			ft_strlen(char *str);
 void		*ft_calloc(size_t n, size_t xsize);
 char		**copy_map(t_infomap *vmap);
-void		run_game(void);
+
+void		init_floor_objects(t_vars *vars, t_infomap *map);
+t_object	*object_type(t_vars *vars, int id, int i, int j);
+t_object	*create_object_1(t_vars *vars, int id, int i, int j);
+t_object	*create_object_0(t_vars *vars, int id, int i, int j);
+t_object	*create_object_C(t_vars *vars, int id, int i, int j);
+t_object	*create_object_P(t_vars *vars, int id, int i, int j);
+t_object	*create_object_E(t_vars *vars, int id, int i, int j);
+t_object	*create_object_M(t_vars *vars, int id, int i, int j);
+void		set_new_object(t_object *obj);
 
 int			my_mlx_pixel_get(t_data *data, int x, int y);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
-
-t_data		*sprite(void);
-char		*on(int press);
-
+void		my_mlx_pixel_clear(t_data *data, int x, int y, int color);
 void		puttex(t_vars *vars, t_data *image, int x, int y);
-void		put_ground(t_vars *vars, t_object *image, int x, int y);
+void		ground_to_image(t_vars *vars, t_object *image);
+void		make_frame(t_vars *vars, t_infomap *map);
 
-void 		movement(t_vars *vars);
+void		ft_lstadd_back(t_list **lst, t_list *new);
+
+
+void		make_frame(t_vars *vars, t_infomap *map);
+
+char		*on(int press);
+void		movement(t_vars *vars, t_object *obj);
 int			key_down(int keycode, t_vars *vars);
 int 		key_up(int keycode, t_vars *vars);
 int			end_game(t_vars *vars);
 
-void		my_mlx_pixel_clear(t_data *data, int x, int y, int color);
-
+t_data		*sprite(void);
 t_data		*blank(void);
-
 t_list		**obj_list(void);
-
-t_object	*create_object(char *path, t_vars *vars, int id);
+t_object 	*player(void);
+t_list		**obj_list(void);
 
 void		do_nothing(t_vars *vars);
 
-void		set_new_object(t_object *obj);
+void		run_object(t_vars *vars, t_object *obj);
 
-void		make_frame(t_vars *vars, t_infomap *map);
+
+
 
 #endif

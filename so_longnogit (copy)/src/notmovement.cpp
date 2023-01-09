@@ -6,7 +6,7 @@
 /*   By: rteles-f <rteles-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 22:17:19 by rteles-f          #+#    #+#             */
-/*   Updated: 2023/01/02 18:09:58 by rteles-f         ###   ########.fr       */
+/*   Updated: 2023/01/03 19:41:36 by rteles-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	puttex(t_vars *vars, int x, int y)
 	}
 }
 
+// mlx_pixel_put(vars->mlx, vars->win, (int)(player()->x - 16 + j), (int)(player()->y \
+// 			- 24 + i), my_mlx_pixel_get(sprite(), (x + j), (y + i)));
+
 void	animation(t_vars *vars, int x, int y, int z)
 {
 	static int	change;
@@ -66,8 +69,8 @@ void	animation(t_vars *vars, int x, int y, int z)
 	if (change > 3)
 		change = 0;
 	// puttex(vars, (x + (change * 32)), ((*on(A) * 48) + (*on(W) * 144) + (*on(D) * 96) - (*on(S))));
-	puttex(vars, (x + (change * 32)), 1);
-	// puttex(vars, (x + (change * 32)), 3);
+	// puttex(vars, (x + (change * 32)), 1);
+	puttex(vars, (x + (change * 32)), 3);
 
 }
 

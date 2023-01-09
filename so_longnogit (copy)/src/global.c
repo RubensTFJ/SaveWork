@@ -6,7 +6,7 @@
 /*   By: rteles-f <rteles-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 18:42:49 by rteles-f          #+#    #+#             */
-/*   Updated: 2023/01/02 19:14:46 by rteles-f         ###   ########.fr       */
+/*   Updated: 2023/01/09 19:46:20 by rteles-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,37 @@ t_object	**move_list(void)
 
 	return (&ob);
 }
+
 /*
+t_infomap l() {
+	char		**map;
+	int			width_x;
+	int			height_y;
+	int			exit[2];
+	int			pstart[2];
+	int			collectables[2];
+	t_object	***grid;
+	{
+		int		id;
+		double	x;
+		double	y;
+		int		animation;
+		void	*(*new_pos)(t_vars *vars, t_object *obj);
+		void	*(*trail)(t_vars *vars, t_object *obj);
+		t_data	data;
+		{
+			void	*img;
+			char	*addr;
+			int		bits_per_pixel;
+			int		line_length;
+			int		endian;
+			int		width;
+			int		height;
+		}
+	}
+}	t_infomap;
+
+
 t_data l()
 {
 	void	*img;

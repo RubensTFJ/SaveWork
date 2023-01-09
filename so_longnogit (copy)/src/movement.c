@@ -6,26 +6,28 @@
 /*   By: rteles-f <rteles-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 18:14:49 by rteles-f          #+#    #+#             */
-/*   Updated: 2023/01/02 20:58:15 by rteles-f         ###   ########.fr       */
+/*   Updated: 2023/01/09 21:26:00 by rteles-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <so_long.h>
 
 
-void	put_ground(t_vars *vars, t_object *image, int x, int y)
+void	ground_to_image(t_vars *vars, t_object *image)
 {
 	int	i;
 	int	j;
+	int	x;
+	int	y;
 
 	i = -1;
-	x *= SCALE;
-	y *= SCALE;
+	x = image->x * SCALE;
+	y = image->y * SCALE;
 	while (++i < image->data.height)
 	{
 		j = -1;
 		while (++j < image->data.width)
-			my_mlx_pixel_put(&vars->img, (y + i), (x + j), my_mlx_pixel_get(&image->data, (0 + i), (0 + j)));
+			my_mlx_pixel_put(&vars->img, (y + i), (x + j), my_mlx_pixel_get(&image->data, (i), (image->animation + j)));
 	}
 }
 // 
@@ -89,24 +91,60 @@ int	key_up(int keycode, t_vars *vars)
 	*on(keycode) = 0;
 }
 
+void	change_matrix(t_infomap *map)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (++i < map->height_y)
+	{
+		j = -1;
+		while (++j < map->width_x)
+		{
+			if (map->grid[i][j]->id != '0')
+			{
+				map->grid[i][j]->animation += 8;
+				if (map->grid[i][j]->animation > 64)
+					map->grid[i][j]->animation = 0;
+			}
+		}
+	}
+	printf("animation: %i\n", map->grid[0][0]->animation);
+}
+
 int	key_down(int keycode, t_vars *vars)
 {
 	*on(keycode) = 1;
 	if (*on(ESC))
 		end_game(vars);
 	if (*on(SPACE))
-		animation(vars, 0 * 32, 2 * 48, 1);
+	{
+		make_frame(vars, map());
+		change_matrix(map());
+		make_frame(vars, map());
+		// make_frame(&vars, map());
+	}
+		// animation(vars, 0 * 32, 2 * 48, 1);
 		// puttex(vars, 4 * 32, 3 * 48);
 }
 
-void	movement(t_vars *vars)
+void	movement(t_vars *vars, t_object *obj)
 {
-	t_list	*object;
-
-	// player()->y += (*on(S) - *on(W));
-	// player()->x += (*on(D) - *on(A));
-	animation(vars, 0 * 32, 2 * 48, 0);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+	obj->x += (*on(S) - *on(W));
+	obj->y += (*on(D) - *on(A));
+	// if (obj->x > map()->height_y)
+	// 	obj->x = map()->height_y - 1;
+	// if (obj->y > map()->width_x)
+	// 	obj->y = map()->width_x - 1;
+	// if (obj->y < 0)
+	// 	obj->y = 1;
+	// if (obj->x < 0)
+	// 	obj->x = 1;
+	// map()->grid[(int)(obj->x)][(int)(obj->y)]->on_top = obj;
+	// map()->grid[(int)(obj->x + 1)][(int)(obj->y)]->on_top = obj;
+	// map()->grid[(int)(obj->x)][(int)(obj->y + 1)]->on_top = obj;
+	// map()->grid[(int)(obj->x + 1)][(int)(obj->y + 1)]->on_top = obj;
 }
 
 	// my_mlx_pixel_put(&vars->img, player()->x, player()->y, 0x00FF0000);
