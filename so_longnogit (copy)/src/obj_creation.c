@@ -6,7 +6,7 @@
 /*   By: rteles-f <rteles-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 20:22:57 by rteles-f          #+#    #+#             */
-/*   Updated: 2023/01/09 20:46:03 by rteles-f         ###   ########.fr       */
+/*   Updated: 2023/01/11 20:09:51 by rteles-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	init_floor_objects(t_vars *vars, t_infomap *map)
 		j = -1;
 		while (++j < map->width_x)
 		{
-			if (map->map[i][j] == '1')
+			if (map->map[i][j] == '1' || map->map[i][j] == '/')
 				map->grid[i][j] = create_object_1(vars, '1', i, j);
 			else
 			{
 				map->grid[i][j] = create_object_0(vars, '0', i, j);
 				map->grid[i][j]->on_top = object_type(vars, map->map[i][j], i, j);
-				// ft_lstadd_back(obj_list(), map->grid[i][j]->on_top);
+				listadd_objback(obj_list(), map->grid[i][j]->on_top);
 			}
 		}
 	}
@@ -82,6 +82,7 @@ t_object	*create_object_0(t_vars *vars, int id, int i, int j)
 	obj->y = j;
 	return (obj);
 }
+
 t_object	*create_object_C(t_vars *vars, int id, int i, int j)
 {
 	t_object	*obj;
@@ -91,11 +92,11 @@ t_object	*create_object_C(t_vars *vars, int id, int i, int j)
 	obj->id = id;
 	obj->data.img = mlx_xpm_file_to_image(vars->mlx, "sprites/collectable.xpm", &obj->data.width, &obj->data.height);
 	obj->data.addr = mlx_get_data_addr(obj->data.img, &obj->data.bits_per_pixel, &obj->data.line_length, &obj->data.endian);
-	// obj->some_function = give_something;
 	obj->x = i;
 	obj->y = j;
 	return (obj);
 }
+
 t_object	*create_object_P(t_vars *vars, int id, int i, int j)
 {
 	t_object	*obj;
@@ -108,10 +109,11 @@ t_object	*create_object_P(t_vars *vars, int id, int i, int j)
 	obj->data.height = 32;
 	obj->data.width = 48;
 	obj->new_pos = movement;
-	obj->x = 10;
-	obj->y = 10;
+	obj->x = i;
+	obj->y = j;
 	return (obj);
 }
+
 t_object	*create_object_E(t_vars *vars, int id, int i, int j)
 {
 	t_object	*obj;
@@ -144,7 +146,6 @@ t_object	*create_object_M(t_vars *vars, int id, int i, int j)
 void	set_new_object(t_object *obj)
 {
 	obj->new_pos = NULL;
-	obj->trail = NULL;
 	obj->data.addr = NULL;
 	obj->data.img = NULL;
 }

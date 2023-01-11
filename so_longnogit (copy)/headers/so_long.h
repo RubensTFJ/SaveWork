@@ -6,7 +6,7 @@
 /*   By: rteles-f <rteles-f@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 18:13:24 by rteles-f          #+#    #+#             */
-/*   Updated: 2023/01/09 20:42:05 by rteles-f         ###   ########.fr       */
+/*   Updated: 2023/01/11 19:42:33 by rteles-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ struct s_object {
 	int			id;
 	double		x;
 	double		y;
-	void		*(*new_pos)(t_vars *vars, t_object *obj);
-	exe			*trail;
+	void		(*new_pos)(t_vars *vars, t_object *obj);
+	void		(*print)(t_vars *vars, t_object *obj);
 	t_data		data;
 	t_object	*on_top;
 	int		animation;
@@ -130,15 +130,15 @@ int			end_game(t_vars *vars);
 
 t_data		*sprite(void);
 t_data		*blank(void);
-t_list		**obj_list(void);
+t_object	**obj_list(void);
 t_object 	*player(void);
-t_list		**obj_list(void);
+void		listadd_objback(t_object **lst, t_object *new);
 
 void		do_nothing(t_vars *vars);
 
 void		run_object(t_vars *vars, t_object *obj);
 
-
+void		init_game(t_vars *game);
 
 
 #endif
